@@ -7,4 +7,15 @@ data = Query.basic.updateTransact("UserId","NaYaNa", {
 });
 
 
+scanFilterData = Query.basic.scanFilter('TableNAME!',{
+  ":EmailSubscribe": true,
+  ":EmailSubStateChangeTime": Date.now()
+});
+
+scanFilterData = Query.basic.scanFilterExpression('TableNAME!',{
+  ":EmailSubscribe": true,
+  ":EmailSubStateChangeTime": Date.now()
+});
+
 console.log(data);
+console.log(scanFilterData);

@@ -15,7 +15,19 @@ module.exports = {
       });
       return {TransactItems: TransactItems};
     },
-
+    query(_item){
+      //한개의 아이템만 리턴될 때
+      return {TableName : "TableName",
+        Key : _item   // {key : value}
+      }
+    },
+    query_itmes(_item1, _item2){
+      //한개 이상의 아이템이 리턴 될
+      return {TableName : "TableName",
+        KeyConditionExpression: "BracketId = :BracketId",
+        ExpressionAttributeValues: _item2 // ":key" : "value"
+      }
+    },
     put(_item){
       return{
         TableName: Database.userLog,
@@ -41,7 +53,19 @@ module.exports = {
       query.Key[keyName] = key;
       return query
     },
-
+    scanFilter(tableName, _value){
+      let FilterExpression = '';
+      const filterData = Object.keys(_value);
+      for (let i = 0; i < filterData.length; i++) {
+        FilterExpression = `${FilterExpression} ${filterData[i].replace(":","")} = ${filterData[i]}`;
+        if (i !== filterData.length-1)       FilterExpression = `${FilterExpression} and `;
+      }
+      return{
+        TableName: tableName,
+        FilterExpression: FilterExpression,
+        ExpressionAttributeValues:_value
+      }
+    }
   }
 
 
